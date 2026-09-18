@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relatório Clínico</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <main class="app">
+
+        <header class="cabecalho">
+            <h1>Relatório Clínico</h1>
+
+            <nav class="abas">
+                <a class="aba ativa" href="/">Relatório</a>
+                <a class="aba" href="#">Mensagens</a>
+            </nav>
+        </header>
+
+        <section class="conteudo">
+
+            <article class="card">
+                <h2>📋 Avaliação Inicial</h2>
+                <p>{{ paciente.avaliacao_inicial }}</p>
+            </article>
+
+            <article class="card">
+                <h2>🎯 Metas de Tratamento</h2>
+
+                {% for meta in metas %}
+                <div class="meta">
+                    <span class="numero">{{ meta.numero }}</span>
+                    <span>{{ meta.descricao }}</span>
+                </div>
+                {% endfor %}
+            </article>
+
+            <article class="card">
+                <h2>✨ Recomendações Ativas</h2>
+
+                {% for recomendacao in recomendacoes %}
+                <div class="recomendacao">
+                    <strong>{{ recomendacao.tipo }}</strong>
+                    <b>{{ recomendacao.titulo }}</b>
+                    <p>{{ recomendacao.descricao }}</p>
+                </div>
+                {% endfor %}
+            </article>
+
+        </section>
+    </main>
+</body>
+</html>
