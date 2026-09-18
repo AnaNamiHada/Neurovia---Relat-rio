@@ -2,7 +2,6 @@ import mysql.connector
 
 
 class Database:
-    """Classe responsável pela comunicação com o MySQL."""
 
     def __init__(self):
         self.config = {
@@ -16,56 +15,49 @@ class Database:
         return mysql.connector.connect(**self.config)
 
     def buscar_paciente(self, paciente_id):
-        conn = self.conectar()
-        cursor = conn.cursor(dictionary=True)
+        conexao = self.conectar()
+        cursor = conexao.cursor(dictionary=True)
 
         cursor.execute(
-            "SELECT id, nome, avaliacao_inicial "
-            "FROM pacientes WHERE id = %s",
+            "SELECT * FROM pacientes WHERE id = %s",
             (paciente_id,)
         )
 
         paciente = cursor.fetchone()
 
         cursor.close()
-        conn.close()
+        conexao.close()
 
         return paciente
 
     def listar_metas(self, paciente_id):
-        conn = self.conectar()
-        cursor = conn.cursor(dictionary=True)
+        conexao = self.conectar()
+        cursor = conexao.cursor(dictionary=True)
 
         cursor.execute(
-            "SELECT numero, descricao "
-            "FROM metas_tratamento "
-            "WHERE paciente_id = %s "
-            "ORDER BY numero",
+            "SELECT * FROM metas_tratamento WHERE paciente_id = %s",
             (paciente_id,)
         )
 
         metas = cursor.fetchall()
 
         cursor.close()
-        conn.close()
+        conexao.close()
 
         return metas
 
     def listar_recomendacoes(self, paciente_id):
-        conn = self.conectar()
-        cursor = conn.cursor(dictionary=True)
+        conexao = self.conectar()
+        cursor = conexao.cursor(dictionary=True)
 
         cursor.execute(
-            "SELECT tipo, titulo, descricao "
-            "FROM recomendacoes "
-            "WHERE paciente_id = %s "
-            "ORDER BY id",
+            "SELECT * FROM recomendacoes WHERE paciente_id = %s",
             (paciente_id,)
         )
 
         recomendacoes = cursor.fetchall()
 
         cursor.close()
-        conn.close()
+        conexao.close()
 
         return recomendacoes

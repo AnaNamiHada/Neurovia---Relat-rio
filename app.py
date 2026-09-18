@@ -1,39 +1,48 @@
-from flask import Flask, render_template
 from database import Database
 from models import Paciente, MetaTratamento, Recomendacao
 
-app = Flask(__name__)
+
 db = Database()
 
-@app.route("/")
-def inicio():
-    # Para o exemplo, usamos o paciente de id 1.
-    paciente = db.buscar_paciente(1)
-    metas = db.listar_metas(1)
-    recomendacoes = db.listar_recomendacoes(1)
+# Buscar paciente
+dados_paciente = db.buscar_paciente(1)
 
-    paciente_obj = Paciente(
-        paciente["id"],
-        paciente["nome"],
-        paciente["avaliacao_inicial"]
+paciente = Paciente(
+    dados_paciente["id"],
+    dados_paciente["nome"],
+    dados_paciente["avaliacao_inicial"]
+)
+
+print("PACIENTE")
+print("Nome:", paciente.nome)
+print("Avaliação:", paciente.avaliacao_inicial)
+
+
+# Buscar metas
+dados_metas = db.listar_metas(1)
+
+print("\nMETAS DE TRATAMENTO")
+
+for meta in dados_metas:
+    meta_objeto = MetaTratamento(
+        meta["numero"],
+        meta["descricao"]
     )
 
-    metas_obj = [
-        MetaTratamento(m["numero"], m["descricao"])
-        for m in metas
-    ]
+    print(meta_objeto.numero, "-", meta_objeto.descricao)
 
-    recomendacoes_obj = [
-        Recomendacao(r["tipo"], r["titulo"], r["descricao"])
-        for r in recomendacoes
-    ]
 
-    return render_template(
-        "relatorio.html",
-        paciente=paciente_obj,
-        metas=metas_obj,
-        recomendacoes=recomendacoes_obj
+# Buscar recomendações
+dados_recomendacoes = db.listar_recomendacoes(1)
+
+print("\nRECOMENDAÇÕES")
+
+for recomendacao in dados_recomendacoes:
+    recomendacao_objeto = Recomendacao(
+        recomendacao["tipo"],
+        recomendacao["titulo"],
+        recomendacao["descricao"]
     )
 
-if __name__ == "__main__":
-    app.run(debug=True)
+    print(recomendacao_objeto.tipo, "-", recomendacao_objeto.titulo)
+    print(recomendacao_objeto.descricao)
