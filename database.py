@@ -1,4 +1,3 @@
-import os
 import mysql.connector
 
 
@@ -7,10 +6,10 @@ class Database:
 
     def __init__(self):
         self.config = {
-            "host": os.getenv("DB_HOST", "localhost"),
-            "user": os.getenv("DB_USER", "root"),
-            "password": os.getenv("DB_PASSWORD", "SUA_SENHA"),
-            "database": os.getenv("DB_NAME", "clinica"),
+            "host": "localhost",
+            "user": "root",
+            "password": "SUA_SENHA",
+            "database": "clinica"
         }
 
     def conectar(self):
@@ -30,6 +29,7 @@ class Database:
 
         cursor.close()
         conn.close()
+
         return paciente
 
     def listar_metas(self, paciente_id):
@@ -48,6 +48,7 @@ class Database:
 
         cursor.close()
         conn.close()
+
         return metas
 
     def listar_recomendacoes(self, paciente_id):
@@ -66,4 +67,5 @@ class Database:
 
         cursor.close()
         conn.close()
+
         return recomendacoes
