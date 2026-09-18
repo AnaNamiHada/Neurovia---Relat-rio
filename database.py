@@ -61,3 +61,6 @@ class Database:
         conexao.close()
 
         return recomendacoes
+    
+
+    
